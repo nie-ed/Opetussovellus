@@ -21,7 +21,8 @@ def login():
 		username = request.form["username"]
 		password = request.form["password"]   
 		if users.get_user(username, password):
-			return redirect ("/profile/<int:id>")
+			return render_template("/profile.html")
+			#oikeasti"/profiles/<int:id>"
 		else:
 			return render_template("error.html", error="Väärä tunnus tai salasana")
  
@@ -38,7 +39,7 @@ def create_account():
 		if users.create_user(username, hash_value):
 			return redirect("/signup")
 		else:
-			return render_template("error.html", error="Creating account was 				unsuccessfull")
+			return render_template("error.html", error="Creating account was unsuccessfull")
 			
 	#admin?
 	

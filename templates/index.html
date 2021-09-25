@@ -1,6 +1,6 @@
 {% if session.username %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
+</form>
 {% else %}
 <form action="/login" method="POST">
 <p>Username:<br>
@@ -9,7 +9,7 @@
 <input type="password" name="password"></p>
 <input type="submit" value="Log in">
 </form>
-{% endif %}
 <form action="/signup">
 <input type="submit" value="Sign up">
 </form>
+{% endif %}

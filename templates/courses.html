@@ -1,8 +1,7 @@
 <p>Course listing:</p>
-
 <ul>
 {% for course in courses %}
-<li><a href="/" + str({{course.name}})>{{course.name}}</a>
+<li><a href="/courses/{{course.id}}">{{course.name}}</a>
 {% endfor %} 
 </ul>
 

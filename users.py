@@ -51,8 +51,3 @@ def user_id():
 	result = db.session.execute(sql, {"username":session["username"]})
 	id_user = result.fetchone()
 	return id_user
-
-def all_courses():
-	result = db.session.execute("SELECT name FROM courses")
-	courses = result.fetchall()
-	return courses

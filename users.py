@@ -32,10 +32,7 @@ def is_admin(id):
 	sql = "SELECT admin FROM users WHERE id=:id"
 	result = db.session.execute(sql, {"id":id})
 	admin = result.fetchone()
-	if admin:
-		return True
-	else:
-		return False
+	return admin
 
 def is_user():
 	sql= "SELECT * FROM users WHERE username=:username"

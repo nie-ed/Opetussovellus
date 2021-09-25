@@ -15,7 +15,6 @@ def index():
 	return render_template("index.html")
 
 
-#kirjaudutaan sisään
 @app.route("/login",methods=["GET", "POST"])
 def login():
 	if request.method == "GET":
@@ -31,7 +30,6 @@ def login():
 			return render_template("error.html", error="Väärä tunnus tai salasana")
  
 	
-#tähän luo käyttäjä sivusto
 @app.route("/signup", methods=["GET", "POST"])
 def create_account():
 	if request.method == "GET":
@@ -45,9 +43,8 @@ def create_account():
 		else:
 			return render_template("error.html", error="Creating account was unsuccessfull")
 			
-	#admin?
+
 	
-#tarkastetaan saako käyttäjä nähdä profiilin
 @app.route("/profile/<int:id>")
 def profile(id):
 	allow = False
@@ -70,7 +67,8 @@ def logout():
 @app.route("/courses")
 def courses():
 	all = modify_courses.all_courses()
-	return render_template("courses.html", courses = all)
+	admin = users.is_admin(session["user_id"])
+	return render_template("courses.html", courses = all, admin = admin)
 
 @app.route("/add_course", methods=["GET", "POST"])
 def add_course():
@@ -87,7 +85,11 @@ def add_course():
 		modify_courses.add_course(name)
 		return redirect ("/courses")
 		
-@app.route("/courses/<int:id>")
+@app.route("/courses/<int:id>", methods=["GET", "POST"])
 def course_site(id):
-	return render_template("course.html")
-
+	if request.method == "GET":
+		attending = modify_courses.attending(id, session["user_id"])
+		return render_template("course.html", attending = attending)
+	if request.method == "POST":
+		modify_courses.attend_course(id, session["user_id"])
+		return redirect("/courses/" + str(id))

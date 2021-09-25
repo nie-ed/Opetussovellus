@@ -1,0 +1,13 @@
+<p>Course listing:</p>
+
+<ul>
+{% for course in courses %}
+<li><a href="/" + str({{course.name}})>{{course.name}}</a>
+{% endfor %} 
+</ul>
+
+<form action="/add_course">
+<input type="submit" value="Create new cource">
+</form>
+
+

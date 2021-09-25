@@ -3,6 +3,9 @@ from flask import redirect, render_template, request, session
 from os import getenv
 from werkzeug.security import check_password_hash, generate_password_hash
 import users
+from flask import Flask
+import modify_courses
+
 
 app.secret_key = getenv("SECRET_KEY")
 
@@ -66,18 +69,25 @@ def logout():
 
 @app.route("/courses")
 def courses():
-	courses = users.all_courses()
-	return render_template("courses.html", courses=courses)
+	all = modify_courses.all_courses()
+	return render_template("courses.html", courses = all)
 
-
-@app.route("/add_course")
+@app.route("/add_course", methods=["GET", "POST"])
 def add_course():
-	allow = False
-	if users.is_admin(session["user_id"]):
-		allow = True
-	if not allow:
-		return render_template("error.html", error="Ei oikeutta nähdä sivua")
-	if allow:
-		return render_template("add_course.html")
-
+	if request.method == "GET":
+		allow = False
+		if users.is_admin(session["user_id"]):
+			allow = True
+		if not allow:
+			return render_template("error.html", error="Ei oikeutta nähdä sivua")
+		if allow:
+			return render_template("add_course.html")
+	if request.method == "POST":
+		name = request.form["name"]
+		modify_courses.add_course(name)
+		return redirect ("/courses")
+		
+@app.route("/courses/<int:id>")
+def course_site(id):
+	return render_template("course.html")
 

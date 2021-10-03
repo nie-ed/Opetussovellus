@@ -23,8 +23,9 @@ def login():
 		username = request.form["username"]
 		password = request.form["password"]   
 		user_id = users.get_user(username, password)
-		if (user_id):
+		if user_id:
 			session["username"] = username
+			session["user_id"] = user_id
 			return redirect("/profile/" + str(user_id))
 		else:
 			return render_template("error.html", error="Väärä tunnus tai salasana")
@@ -37,32 +38,42 @@ def create_account():
 	if request.method == "POST":
 		username = request.form["username"]
 		password = request.form["password"]
-		hash_value = generate_password_hash(password)
-		if users.create_user(username, hash_value):
-			return redirect("/signup")
+		if len(username) > 30 or len(username) < 1:
+			return render_template("error.html", error="Nimi on liian pitkä tai lyhyt")
+		if len(password) > 50 or len(password) < 4:
+			return render_template("error.html", error="Salasana on liian pitkä tai lyhyt")
 		else:
-			return render_template("error.html", error="Creating account was unsuccessfull")
+			hash_value = generate_password_hash(password)
+			if users.create_user(username, hash_value):
+				return redirect("/")
+			else:
+				return render_template("error.html", error="Creating account was unsuccessfull")
 			
+@app.route("/profile")
+def profile_route():
+	return redirect("profile/" + str(session["user_id"]))
 
 	
 @app.route("/profile/<int:id>")
 def profile(id):
-	allow = False
-	if users.is_admin(id):
-		allow = True
-	elif users.is_user and users.user_id() == id:
-		allow = True
-	if not allow:
-		return render_template("error.html", error="Ei oikeutta nähdä sivua")
-	if allow:
-		return render_template("profile.html")
-
-
+	if request.method == "GET":
+		user_id = session["user_id"]
+		allow = False
+		if users.is_admin(user_id):
+			allow = True
+		if users.is_user(user_id) and user_id == id:
+			allow = True
+		if not allow:
+			return render_template("error.html", error="Ei oikeutta nähdä sivua")
+		if allow:
+			return render_template("profile.html")
+		
+		
 @app.route("/logout")
 def logout():
-    del session["username"]
-    return redirect("/")
-
+	del session["username"]
+	del session["user_id"]
+	return redirect("/")
 
 @app.route("/courses")
 def courses():
@@ -73,8 +84,9 @@ def courses():
 @app.route("/add_course", methods=["GET", "POST"])
 def add_course():
 	if request.method == "GET":
+		user_id = session["user_id"]
 		allow = False
-		if users.is_admin(session["user_id"]):
+		if users.is_admin(user_id):
 			allow = True
 		if not allow:
 			return render_template("error.html", error="Ei oikeutta nähdä sivua")
@@ -85,11 +97,22 @@ def add_course():
 		modify_courses.add_course(name)
 		return redirect ("/courses")
 		
+		
 @app.route("/courses/<int:id>", methods=["GET", "POST"])
 def course_site(id):
+	user_id = session["user_id"]
 	if request.method == "GET":
-		attending = modify_courses.attending(id, session["user_id"])
-		return render_template("course.html", attending = attending)
+		attending = modify_courses.attending(id, user_id)
+		if attending:
+			return render_template("course.html")
+		else:
+			course = modify_courses.get_course(id)
+			return render_template("attend_course.html", course = course)
 	if request.method == "POST":
-		modify_courses.attend_course(id, session["user_id"])
-		return redirect("/courses/" + str(id))
+		modify_courses.attend_course(id, user_id)
+		attending = modify_courses.attending(id, user_id)
+		if attending:
+			return render_template("course.html")
+		else:
+			return render_template("error.html", error="Kurssille ilmottautuminen ei onnistunut")
+

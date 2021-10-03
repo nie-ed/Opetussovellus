@@ -101,10 +101,11 @@ def add_course():
 @app.route("/courses/<int:id>", methods=["GET", "POST"])
 def course_site(id):
 	user_id = session["user_id"]
+	admin = users.is_admin(user_id)
 	if request.method == "GET":
 		attending = modify_courses.attending(id, user_id)
-		if attending:
-			return render_template("course.html")
+		if attending or admin:
+			return render_template("course.html", admin=admin)
 		else:
 			course = modify_courses.get_course(id)
 			return render_template("attend_course.html", course = course)
@@ -112,7 +113,11 @@ def course_site(id):
 		modify_courses.attend_course(id, user_id)
 		attending = modify_courses.attending(id, user_id)
 		if attending:
-			return render_template("course.html")
+			return render_template("course.html", admin=admin)
 		else:
 			return render_template("error.html", error="Kurssille ilmottautuminen ei onnistunut")
 
+
+@app.route("/modify_course")
+def modify_course():
+	return render_template("modify_course.html")

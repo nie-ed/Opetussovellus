@@ -8,3 +8,25 @@
 <form action="/">
 <input type="submit" value="Log in">
 </form>
+
+<script>
+function check(signup) {
+	if (form.username.value.length > 30) {
+		alert("Nimi on liian pitkä");
+		return false;
+}
+	if (form.username.value.length < 1) {
+        	alert("Nimi on liian lyhyt");
+        	return false;
+}
+	if (form.password.value.length > 50) {
+		alert("Salasana on liian pitkä");
+		return false;
+}
+	if (form.password.value.length < 4) {
+		alert("Salasana on liian lyhyt");
+		return false;
+}
+	return true;
+}
+</script>

@@ -68,7 +68,11 @@ def profile(id):
 		if not allow:
 			return render_template("error.html", error="Ei oikeutta nähdä sivua")
 		if allow:
-			return render_template("profile.html")
+			students_courses = []
+			courses_attending = modify_courses.user_attends(session["user_id"])
+			for course in courses_attending:
+				students_courses.append(modify_courses.get_course(course.course_id))
+			return render_template("profile.html", students_courses=students_courses)
 		
 		
 @app.route("/logout")
@@ -106,19 +110,20 @@ def course_site(id):
 	admin = users.is_admin(user_id)
 	course = modify_courses.get_course(id)
 	tasks=modify_tasks.get_all(id)
+	amount_tasks = len(tasks)
 	content = modify_text.get_all(id)
-	get_answers = answers.get_all(user_id)
 	answered = []
 	unanswered = []
 	for task in tasks:
-		if answers.find_answer(task.id, user_id):
-			answered.append(task)
+		if answers.find_answer(task.id, user_id, id):
+			answered.append(answers.find_answer(task.id, user_id, id))
 		else:
 			unanswered.append(task)
+	amount_answered =  len(answered)
 	if request.method == "GET":
 		attending = modify_courses.attending(id, user_id)
 		if attending or admin:
-			return render_template("course.html", admin=admin, id = id, unanswered=unanswered, answers = get_answers, content = content, course = course)
+			return render_template("course.html", admin=admin, id = id, unanswered=unanswered, answered = answered, content = content, course = course, amount_tasks = amount_tasks, amount_answered = amount_answered)
 		else:
 			course = modify_courses.get_course(id)
 			return render_template("attend_course.html", course = course)
@@ -126,7 +131,7 @@ def course_site(id):
 		modify_courses.attend_course(id, user_id)
 		attending = modify_courses.attending(id, user_id)
 		if attending:
-			return render_template("course.html", admin=admin, id = id, unanswered=unanswered, answers = get_answers, content = content, course = course)
+			return render_template("course.html", admin=admin, id = id, unanswered=unanswered, answered = answered, content = content, course = course, amount_tasks = amount_tasks, amount_answered = amount_answered)
 		else:
 			return render_template("error.html", error="Kurssille ilmottautuminen ei onnistunut")
 
@@ -136,14 +141,6 @@ def modify_course():
 	if request.method == "POST":
 		id = request.form["id"]
 		return render_template("modify_course.html", id = id)
-
-#@app.route("/new_question", methods=["GET", "POST"])
-#def add_question():
-#	if request.method == "GET":
-#		return redirect("/modify_course")
-#	if request.method == "POST":
-#		course_id = request.form["id"]
-#		return render_template("add_question.html", id = course_id)
 
 
 @app.route("/create_new_question", methods=["POST"])
@@ -171,5 +168,6 @@ def add_answer():
 		student_id = session["user_id"]
 		content = request.form["content"]
 		task_topic = request.form["topic"]
-		answers.add_answer(task_id, task_topic, student_id, content)
+		course_id = request.form["course_id"]
+		answers.add_answer(task_id, task_topic, student_id, content=content, course_id=course_id)
 		return redirect("/courses")

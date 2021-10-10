@@ -1,6 +1,9 @@
 {% if session.username %}
 <a href="/logout">Kirjaudu ulos</a>
 </form>
+<form action="/profile">
+<input type="submit" value="Return to own page">
+</form>
 {% else %}
 <form action="/login" method="POST">
 <p>Username:<br>

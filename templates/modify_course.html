@@ -1,1 +1,21 @@
-<p> modify course page</p>
+<h1> Modify course page</h1>
+                  
+<form action="/create_new_question" method="POST">
+<h4>Add text form question:</h4>
+<p><input type="text" name="text_question"></p>
+<input type="submit" value="Add new question">
+<input type="hidden" name="id" value="{{id}}">
+</form>
+
+
+
+<br>
+<form action="/create_new_content" method="POST">
+<h4>Add text content</h4>
+<p>Topic:<br>
+<input type="text" name="topic"></p>
+<p>Text content:<br>
+<input type="text" name="content"></p>
+<input type="submit" value="Add new content">
+<input type="hidden" name="id" value="{{id}}">
+</form>

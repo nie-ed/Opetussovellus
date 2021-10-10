@@ -1,3 +1,9 @@
-<a href="/courses">Kurssit</a>
+<h3>Attended courses:</h3>
+{% for course in students_courses %}
+<a href= "/courses/{{course.id}}"<p>{{course.name}}</p>
+{% endfor %}
 <br>
-<a href="/logout">Kirjaudu ulos</a>
+
+<a href="/courses">List of all courses</a>
+<br>
+<a href="/logout">Log out</a>

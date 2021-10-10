@@ -39,3 +39,9 @@ def attend_course(id, user_id):
 	sql = "INSERT INTO students_in_course (user_id, course_id) VALUES (:user_id, :course_id)"
 	db.session.execute(sql, {"user_id":user_id, "course_id":id})
 	db.session.commit()
+
+def user_attends(user_id):
+	sql = "SELECT * FROM students_in_course WHERE user_id=:user_id "
+	result = db.session.execute(sql, {"user_id":user_id})
+	courses = result.fetchall()
+	return courses

@@ -1,12 +1,40 @@
-<p> kurssin tiedot</p>
+<h1>{{course.name}}</h1>
+
+<br>
+{% for text in content %}
+<h3>{{text.topic}}</h3>
+<p>{{text.content}}</p>
+{% endfor %}
+
+<br>
+<h3>Questions:</h3>
+{% for task in unanswered %}
+<form action="/add_answer" method="POST">
+<p>{{task.text_question}}</p>
+<input type= "hidden" name="topic" value="{{task.text_question}}">
+<input type= "text" name="content">
+<input type= "hidden" name="task_id" value="{{task.id}}">
+<input type="submit" value="Send">
+</form>
+{% endfor %}
+
+<br>
+<h3>Answered questions:</h4>
+{% for answer in answers %}
+<h4>Question:</h4>
+<p>{{answer.task_topic}}</p>
+<h4>You answered:</h4>
+<p>{{answer.content}}</p>
+{% endfor %}
+
 
 <form action="/profile">
 <input type="submit" value="Return to own page">
 </form>
 
-
 {% if admin %}
-<form action="/modify_course">
+<form action="/modify_course" method="POST">
 <input type="submit" value="Modify course">
+<input type="hidden" name="id" value="{{ id }}">
 </form>
 {% endif%}

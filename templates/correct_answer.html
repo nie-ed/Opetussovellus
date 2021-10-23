@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="../static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-sm navbar-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/courses">List of all courses</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile">Own Page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Log out</a>
+      </li>
+    </ul>
+  </nav>
+<div>
+
+<div class="header2">
+  <p>The correct answer</p>
+</div>
+ <br>
+  <h4>Choose the correct answer for the created multiple choice question:<h4>
+  <form action="/correct_answer/{{task_id}}" method="POST">
+  {% for choice in task_choices %}
+    <input type="radio" name="answer" value={{choice.id}}>{{choice.choice_text}}<br>
+  {% endfor %}
+  <p>
+  <input type="submit" value="Create question">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  </form>
+</bo<sdy>

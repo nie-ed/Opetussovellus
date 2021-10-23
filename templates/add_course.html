@@ -1,10 +1,39 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="../static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
 <title>Add a course</title>
 
-<h1>Create a course:<h1>
+<body>
 
-<form action="/add_course" method="POST">
-Course name:
-<input type="text" name="name">
-<br>
-<input type="submit" value="Create course">
-</form>
+  <div class="header">
+     <h3> Create new course</h3>
+  </div>
+
+  <div class="content">
+     <h2>Create a course:</h2>
+
+     <form action="/add_course" method="POST" onsubmit="return check(this)">
+         <h4>Course name:
+         <input type="text" name="name"></h4>
+         <br>
+         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+         <input type="submit" value="Create course">
+     </form>
+  </div>
+
+</body>
+
+<script>
+function check(form) {
+        if (form.name.value.length > 100) {
+                alert("Course name is to long. Should be at most 100 characters");
+                return false;
+}
+	if (form.name.value.length < 2) {
+                alert("Course name is to short. Should be at least 2 characters.");
+                return false;
+}
+	return true;
+}
+</script>

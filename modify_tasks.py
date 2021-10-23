@@ -24,3 +24,9 @@ def get_all(course_id):
 	tasks = result.fetchall()
 	return tasks
 
+
+def get_course_id(id):
+	sql = "SELECT course_id FROM tasks WHERE id=:id"
+	result = db.session.execute(sql, {"id":id})
+	course_id = result.fetchone()
+	return course_id

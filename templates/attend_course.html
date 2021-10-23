@@ -1,3 +1,35 @@
-<form action="/courses/{{course.id}}" method="POST">
-<input type="submit" value="Sign up for course">
-</form>
+<!DOCTYPE html>
+<link rel="stylesheet" href="../static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<body>
+<title>Sign up for course {{course.name}}</title>
+<div class="container">
+  <nav class="navbar navbar-expand-sm navbar-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/courses">List of all courses</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile">Own Page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Log out</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<div class="header2">
+   <h4>Sign up for course {{course.name}}</h4>
+</div>
+    
+   <br>
+  	<h4>You have not signed up for course: <b>{{course.name}}</b>. Sign up here:</4>
+	<br>
+        <form action="/courses/{{course.id}}" method="POST">
+	<input type="submit" value="Sign up for course">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+	</form>
+
+</body>

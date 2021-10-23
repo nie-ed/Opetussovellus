@@ -1,18 +1,33 @@
-{% if session.username %}
-<a href="/logout">Kirjaudu ulos</a>
-</form>
-<form action="/profile">
-<input type="submit" value="Return to own page">
-</form>
-{% else %}
-<form action="/login" method="POST">
-<p>Username:<br>
-<input type="text" name="username"></p>
-<p>Password:<br>
-<input type="password" name="password"></p>
-<input type="submit" value="Log in">
-</form>
-<form action="/signup">
-<input type="submit" value="Sign up">
-</form>
-{% endif %}
+<!DOCTYPE html>
+<link rel="stylesheet" href="static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<body>
+  {% if session.username %}
+
+    <meta http-equiv="Refresh" content="0; url='/main_page'" />
+
+  {% else %}
+
+    <div class="header4">
+      <h1>Opetussovellus</h1>
+    </div>
+    
+    <div class="content">
+      <h4>Log in:</h4>
+      <form action="/login" method="POST">
+          <p>Username:<br>
+          <input type="text" name="username"></p>
+          <p>Password:<br>
+          <input type="password" name="password"></p>
+          <input type="submit" value="Log in">
+      </form>
+      
+      <form action="/signup">
+          <input type="submit" value="Sign up">
+      </form>
+
+    </div>
+
+</body>
+  {% endif %}

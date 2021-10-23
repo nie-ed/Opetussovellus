@@ -1,16 +1,33 @@
-<form action="/signup" method="POST">
-<p>Username:<br>
-<input type="text" name="username"></p>
-<p>Password:<br>
-<input type="password" name="password"></p>
-<input type="submit" value="Create account">
-</form>
-<form action="/">
-<input type="submit" value="Log in">
-</form>
+<!DOCTYPE html>
+<link rel="stylesheet" href="static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+<body>
+  <div class="header4">
+      <h1>Opetussovellus</h1>
+  </div>
+
+  <div class="content">
+    <h4>Sign up:</h4>
+    <form action="/signup" method="POST" onsubmit="return check(this)">
+        <p>Username:<br>
+        <input type="text" name="username"></p>
+        <p>Password:<br>
+        <input type="password" name="password"></p>
+        <p>Type in password again:<br>
+        <input type="password" name="password2"></p>
+        <input type="submit" value="Create account">
+    </form>
+
+    <form action="/">
+        <input type="submit" value="Log in">
+    </form>
+  </div>
+
+</body>
 
 <script>
-function check(signup) {
+function check(form) {
 	if (form.username.value.length > 30) {
 		alert("Nimi on liian pitkä");
 		return false;
@@ -27,6 +44,10 @@ function check(signup) {
 		alert("Salasana on liian lyhyt");
 		return false;
 }
+	if(form.password.value != form.password2.value){
+		alert("Typed in two different passwords")
+		return false;
+	}
 	return true;
 }
 </script>

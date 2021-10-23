@@ -33,6 +33,8 @@
           <input type="hidden" name="course_id" value="{{id}}">
           <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
      </form>
+   </div>
+
      <br>
      <form action="/create_new_multiple_choice_question" method="POST" onsubmit="return check(this)">
           <h4>Create a new multiple choice question:</h4>
@@ -51,6 +53,8 @@
           <input type="submit" value="Create multiple choice question">
           <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
      </form>
+
+
      <br>  
      <form action="/create_new_content" method="POST" onsubmit="return check(this)">
           <h4>Add text content:</h4>
@@ -58,14 +62,16 @@
           <input type="text" name="topic"></p>
           <p>Text content:</p>
           <textarea name="content" rows="5" cols="100"></textarea>
-          <input type="submit" value="Add new content">
           <input type="hidden" name="course_id" value="{{id}}">
           <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-     </form>
+          <input type="submit" value="Add new content">
+	</form>
 
-   </div>
+  </div>
 
 </body>
+
+
 
 
 <script>
@@ -73,39 +79,32 @@ function check(form) {
         if (form.text_question.value.length > 100) {
                 alert("Question is too long. Should be at most 100 characters");
                 return false;
-}
-if (form.text_question.value.length < 2) {
-                alert("Question is too short. Should be at least 2 characters");
-                return false;
-}
-if (form.topic.value.length > 100) {
-                alert("Text content header is too long. Should be at most 100 characters");
-                return false;
-}
-if (form.topic.value.length < 2) {
-                alert("Text content header is too short. Should be at least 2 characters");
-                return false;
-}
-if (form.content.value.length > 100) {
-                alert("Text content is too long. Should be at most 2000 characters");
-                return false;
-}
-if (form.content.value.length < 10) {
-                alert("Text content is too short. Should be at least 10 characters");
-                return false;
-}
-if (form.choice.value != ""){
-	if(form.choice.value.length < 2) {
-		alert("Question choice length is too short. Should be at least 2 characters.");
+	}
+	
+	if (form.text_question.value.length < 2) {
+	        alert("Question is too short. Should be at least 2 characters");
+     	        return false;
+	}
+
+	if (form.topic.value.length > 100) {
+		alert("Text content header is too long. Should be at most 100 characters");
 		return false;
 	}
-}
-if (form.choice.value != ""){
-        if(form.choice.value.length > 100) {
-                alert("Question choice length is too long. Should be at most 100 characters");
-        	return false;
+
+	if (form.topic.value.length < 2) {
+                alert("Text content header is too short. Should be at least 2 characters");
+                return false;
 	}
-}
+
+ 	if (form.content.value.length > 100) {
+                alert("Text content is too long. Should be at most 2000 characters");
+                return false;
+	}
+	
+	if (form.content.value.length < 10) {
+                alert("Text content is too short. Should be at least 10 characters");
+                return false;
+	}
 	return true;
 }
 

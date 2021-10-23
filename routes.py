@@ -257,6 +257,7 @@ def create_new_multiple_choice_question():
 @app.route("/correct_answer/<int:id>", methods = ["GET", "POST"])
 def correct_answer(id):
 	task_id = id
+	course_id = modify_tasks.get_course_id(id)
 	if request.method == "GET":
 		task_choices = choices.get_all_choices(task_id)
 		return render_template("correct_answer.html", task_id = task_id, task_choices = task_choices)
@@ -269,7 +270,7 @@ def correct_answer(id):
 			if "answer" in request.form:
 				choice_id = request.form["answer"]
 				answers.choice_correct_answer(task_id, choice_id)
-			return redirect("/courses")
+			return redirect("/courses/" +str(course_id.course_id))
 
 @app.route("/add_choice_answer", methods=["POST"])
 def add_choice_answer():

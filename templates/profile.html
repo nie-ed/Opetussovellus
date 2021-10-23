@@ -1,9 +1,57 @@
-<h3>Attended courses:</h3>
-{% for course in students_courses %}
-<a href= "/courses/{{course.id}}"<p>{{course.name}}</p>
-{% endfor %}
-<br>
+<!DOCTYPE html>
+<link rel="stylesheet" href="../static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
 
-<a href="/courses">List of all courses</a>
-<br>
-<a href="/logout">Log out</a>
+<body>
+  <title>Own page</title>
+  <div class="container">
+    <nav class="navbar navbar-expand-sm navbar-light">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/courses">List of all courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile">Own Page</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Log out</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div>
+     {% if admin %}
+
+       <div class="header">
+          <h3> Your created courses:</h3>
+       </div>
+
+       <div class="list">
+           <ul> 
+               {% for course in courses_created%}
+                   <li><a href="/courses/{{course.id}}">{{ course.name }}</a></li>
+	           <br>
+               {% endfor %}
+           </ul>
+       </div>
+
+     {% else %}
+   
+      <div class="header">
+          <h3>Your attended courses:</h3>
+      </div>
+    
+      <div class="list">
+         <ul>
+             {% for course in students_courses %}
+                 <li> <a href= "/courses/{{course.id}}">{{course.name}}</a></li>
+             {% endfor %}
+         </ul>
+      </div>
+
+    {% endif %}
+ 
+  </div>
+
+</body>

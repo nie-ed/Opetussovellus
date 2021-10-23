@@ -38,7 +38,7 @@ def is_user(user_id):
 	result = db.session.execute(sql, {"id":user_id})
 	user = result.fetchone()
 	if user:
-		return True
+		return user
 	else:
 		return False
 

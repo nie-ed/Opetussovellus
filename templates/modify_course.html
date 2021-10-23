@@ -1,21 +1,112 @@
-<h1> Modify course page</h1>
-                  
-<form action="/create_new_question" method="POST">
-<h4>Add text form question:</h4>
-<p><input type="text" name="text_question"></p>
-<input type="submit" value="Add new question">
-<input type="hidden" name="id" value="{{id}}">
-</form>
+<!DOCTYPE html>
+<link rel="stylesheet" href="../static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
 
 
 
-<br>
-<form action="/create_new_content" method="POST">
-<h4>Add text content</h4>
-<p>Topic:<br>
-<input type="text" name="topic"></p>
-<p>Text content:<br>
-<input type="text" name="content"></p>
-<input type="submit" value="Add new content">
-<input type="hidden" name="id" value="{{id}}">
-</form>
+<body>
+
+<div class="container">
+  <nav class="navbar navbar-expand-sm navbar-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/courses">List of all courses</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/profile">Own Page</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Log out</a>
+      </li>
+    </ul>
+  </nav>
+
+    <div class="header">
+      <h1> Modify course page</h1>
+    </div>
+
+    <div>            
+      <form action="/create_new_question" method="POST" onsubmit="return check(this)">
+          <h4>Add text form question:</h4>
+          <p><input type="text" name="text_question"></p>
+          <input type="submit" value="Add new question">
+          <input type="hidden" name="course_id" value="{{id}}">
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+     </form>
+     <br>
+     <form action="/create_new_multiple_choice_question" method="POST" onsubmit="return check(this)">
+          <h4>Create a new multiple choice question:</h4>
+          <p>Question:<br>
+          <input type="text" name="text_question"></p>
+          <p>Choice 1:<br>
+          <input type="text" name="choice"></p>
+          <p>Choice 2:<br>
+          <input type="text" name="choice"></p>
+          <p>
+          <p>Choice 3:<br>
+          <input type="text" name="choice"></p>
+          <p>Choice 4:<br>
+          <input type="text" name="choice"></p>
+          <input type="hidden" name= "course_id" value="{{id}}">
+          <input type="submit" value="Create multiple choice question">
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+     </form>
+     <br>  
+     <form action="/create_new_content" method="POST" onsubmit="return check(this)">
+          <h4>Add text content:</h4>
+          <p>Topic:<br>
+          <input type="text" name="topic"></p>
+          <p>Text content:</p>
+          <textarea name="content" rows="5" cols="100"></textarea>
+          <input type="submit" value="Add new content">
+          <input type="hidden" name="course_id" value="{{id}}">
+          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+     </form>
+
+   </div>
+
+</body>
+
+
+<script>
+function check(form) {
+        if (form.text_question.value.length > 100) {
+                alert("Question is too long. Should be at most 100 characters");
+                return false;
+}
+if (form.text_question.value.length < 2) {
+                alert("Question is too short. Should be at least 2 characters");
+                return false;
+}
+if (form.topic.value.length > 100) {
+                alert("Text content header is too long. Should be at most 100 characters");
+                return false;
+}
+if (form.topic.value.length < 2) {
+                alert("Text content header is too short. Should be at least 2 characters");
+                return false;
+}
+if (form.content.value.length > 100) {
+                alert("Text content is too long. Should be at most 2000 characters");
+                return false;
+}
+if (form.content.value.length < 10) {
+                alert("Text content is too short. Should be at least 10 characters");
+                return false;
+}
+if (form.choice.value != ""){
+	if(form.choice.value.length < 2) {
+		alert("Question choice length is too short. Should be at least 2 characters.");
+		return false;
+	}
+}
+if (form.choice.value != ""){
+        if(form.choice.value.length > 100) {
+                alert("Question choice length is too long. Should be at most 100 characters");
+        	return false;
+	}
+}
+	return true;
+}
+
+</script>

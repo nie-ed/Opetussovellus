@@ -13,7 +13,7 @@ def add_answer(task_id, student_id, content, course_id):
 def find_answer(task_id, student_id, course_id):
 	sql = "SELECT * FROM answers WHERE task_id=:task_id and student_id=:student_id and course_id=:course_id"
 	result = db.session.execute(sql, {"task_id":task_id, "student_id":student_id, "course_id":course_id})
-	found = result.fetchone()[0]
+	found = result.fetchone()
 	if found:
 		return found
 	else:

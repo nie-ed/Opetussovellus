@@ -1,7 +1,14 @@
-<!doctype html>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<!DOCTYPE html>
+<link rel="stylesheet" href="../static/main.css">
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+
+
+
 <title>{{course.name}}</title>
+
+<body>
+
 <div class="container">
   <nav class="navbar navbar-expand-sm navbar-light">
     <ul class="navbar-nav">
@@ -17,12 +24,36 @@
     </ul>
   </nav>
 
-  <div>
+</div>
 
-    {% for answer in all_answers %}
-	<p>{{answer.username}}</p>
-	<p>{{answer.task_topic}}:</p>
-      <p>{{answer.content}}</p>
-    {% endfor %}
+
+  <div class="header2">
+     <h4>Student answers to question "{{task.text_question}}"</h4>
+  </div>
+
+    {% if all_answers %}
+        
+        {% for answer in all_answers %}
+	    <p>Student <b>{{answer.username}}</b> answered:</p>
+            <p>{{answer.content}}</p>
+            <br>
+        {% endfor %}
+
+    {% endif %}
+
+    {% if all_choice_answers%}
+         
+         {% for answer2 in all_choice_answers %}
+            <p>Student <b>{{answer2.username}}</b> answered:</p>
+            <p>{{answer2.choice_text}}</p>
+            <br>
+         {% endfor %}
+
+    {% endif %}
+
+  <br>
+  <a href="/courses/{{course.id}}">Go back to course site</a>
+
   </div>
 </div>
+</body>

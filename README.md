@@ -1,6 +1,6 @@
-**Opetussovellus**
+#Opetussovellus
 
-Luodut toiminnallisuudet:
+**Luodut toiminnallisuudet:**
 - Sisäänkirjautuminen.
 - Käyttäjän luominen.
 - Kaikkien kurssien näkeminen listana.
@@ -17,27 +17,25 @@ Luodut toiminnallisuudet:
 - Opettaja voi poistaa kurssin.
  
 
-Muita mahdollisesti tulevaisuudessa luotavia toiminnallisuuksia:
+**Muita mahdollisesti tulevaisuudessa luotavia toiminnallisuuksia:**
 - Opettaja pystyy näkemään kussin tilastot, keitä kurssilla on ja mitä tehtäviä ovat ratkoneet.
 - Opiskelijalle lasketaan pisteitä ratkotuista tehtävistä. Monivalintakysymyksistä saa automaattisesti 1 tai 0 pistettä.
-- Opettaja voi arvostella opiskelijan teksittehtävävastaukset ja antaa niistä piteitä.
+- Opettaja voi arvostella opiskelijan tekstitehtävävastaukset ja antaa niistä piteitä.
 - Opiskelija näkee omalla sivullaan/kurssisivulla pistemääränsä jokaiseen kurssiin.
 - Virheilmoitukset näkyvät suoraan samalla sivulla (osittain jo nyt sovelluksessa).
 - Varmista, että sivuille ei pääse, jos ei ole oikeuksia/ei ole kirjautunut sisään.
 - Oikea monivalintatehtävän vastaus tulee näkyviin, heti kun opiskelija on vastannut tehtävään.
 
-Testaaminen herokussa:
+
+**Virheitä sovelluksessa, jotka korjattava:**
+- Opettaja näkee jokaisen kysymyksen kohdalla useaan kertaa oppilaiden vastaukset.
+- Virheilmoitusten näkyminen samalla sivulla ei toimi kaikissa tilanteissa
+
+
+**Testaaminen herokussa:**
 - Sovellus on osoitteessa https://opetus-sovellus.herokuapp.com/
 - Kun luo uuden käyttäjä, admin-arvoksi tulee False.
-- Halutessasi testata admin-oikeuksia, käytä valmiiksi luotua admin-käyttäjää: käyttäjänimi: user1, salasana: user1
-- Signup sivulla voit luoda uuden käyttäjän.
-- Signup sivulla voi palata takaisin kirjautumissivulle "Log in" napilla.
-- Kirjautuessa sisään peruskäyttäjänä tulee lista kursseista, joihin on ilmoittautunut, joissa on linkit kurssien sivuille. Lisäksi sivulla on linkit "List of all courses" josta pääset kurssilistaukseen ja "Log out" josta voit kirjautua ulos.
-- "List of all courses" linkin takaa näet kurssilistauksen, "Create new course" napin, mikäli olet admin käyttäjä ja "Return to own page" napin, jostä pääset omalle sivulle. 
-- "Create new course" napin takaa voi admin käyttäjä luoda uuden kurssin.
-- Kun klikkaat kurssilistaussivulla kurssin nimeä:
-	- jos olet peruskäyttäjä ja et ole ilmoittautunut kurssille, pääset sivulle, jossa on nappi josta voit ilmottautua kurssille.
-	- jos olet ilmoittautunut kurssille, näet kurssisivun.
-	- jos olet admin-käyttäjä näet kurssisivun.
-- Jos olet adminkäyttäjä kurssisivulla on nappi "Modify course"
-	- Napin takana voit luoda uuden tekstitehtävän tai tekstimateriaalia kurssille.
+- Halutessasi testata admin-oikeuksia, käytä valmiiksi luotua admin-käyttäjää: käyttäjänimi: user1, salasana: user1. 
+- Testataksesi peruskäyttäjän toiminnallisuuksia, voit luoda uuden käyttäjän sign up sivulla. Mikäli et halua luoda uutta käyttäjää, valmis peruskäyttäjä on: käyttäjätunnus: user3 ja salasana: user3
+- Kirjautuessa sisään pääset etusivulle. Jokaisen sivun yläreunassa on linkit "List of all courses" josta pääset kurssilistaukseen, "Log out" josta voit kirjautua ulos ja "Own Page", josta voit mennä omalla sivulle.
+- Toiminnallisuuksien näkyminen/sivuston sisältö riippuu siitä oletko admin käyttäjä vai et sekä esim. siitä oletko ilmottautunut kurssille. 

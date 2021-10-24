@@ -7,21 +7,24 @@ Luodut toiminnallisuudet:
 - Linkki kurssisivulle kurssilistauksessa.
 - Uuden kurssin luominen admin käyttäjänä.
 - Kurssisivulla joko kurssin sivu tai linkki osallistua kurssille.
-- users, courses, students_in_course, tasks, answers ja course_text sql taulut.
+- answers, choice_correct_answers, choice_student_answers, choices, course_text, courses, students_in_course, tasks users sql taulut.
 - Admin oikeuksien tarkastus ja toimivuus.
-- Admin (opettaja) pystyy muokkaamaan kurssia: lisäämään tekstitehtäviä ja tekstimateriaalia.
+- Admin (opettaja) pystyy muokkaamaan kurssia: lisäämään tekstitehtäviä, tekstimateriaalia ja monivalintakysymyksiä.
 - Opiskelija näkee tilaston omista ratkotuista tehtävistä.
-- Opiskelija näkee tehdyt tehtävät ja tekemättömät tehtävä kurssisivulla.
+- Kysymyssivusto, josta opiskelija näkee tehtävän kysymyksen tai oman vastauksensa tehtävään. Jos oli monivalintakysymys, opiskelija näkee, oliko hänen vastauksensa oikea vai väärä.
+- Opettaja näkee kurssille osallistuvien opiskelijoiden nimet.
+- Opettaja näkee kuka on vastannut ja mitä, jokaiseen kysymykseen
+- Opettaja voi poistaa kurssin.
+ 
 
-Vielä luotavaa:
-- Tehtävät monivalinta-(automaattisesti tarkastettavat).
+Muita mahdollisesti tulevaisuudessa luotavia toiminnallisuuksia:
 - Opettaja pystyy näkemään kussin tilastot, keitä kurssilla on ja mitä tehtäviä ovat ratkoneet.
-- Opettaja pystyy poistamaan kurssin.
-- Ulkoasu.
-- Kaikkien syötteiden validointi.
-- Virheilmoitukset näkyvät suoraan samalla sivulla.
+- Opiskelijalle lasketaan pisteitä ratkotuista tehtävistä. Monivalintakysymyksistä saa automaattisesti 1 tai 0 pistettä.
+- Opettaja voi arvostella opiskelijan teksittehtävävastaukset ja antaa niistä piteitä.
+- Opiskelija näkee omalla sivullaan/kurssisivulla pistemääränsä jokaiseen kurssiin.
+- Virheilmoitukset näkyvät suoraan samalla sivulla (osittain jo nyt sovelluksessa).
 - Varmista, että sivuille ei pääse, jos ei ole oikeuksia/ei ole kirjautunut sisään.
-- Luodessa salasanaa, pyydä kirjoittaa salasana kahdesti ja tarkasta, että ovat samat.
+- Oikea monivalintatehtävän vastaus tulee näkyviin, heti kun opiskelija on vastannut tehtävään.
 
 Testaaminen herokussa:
 - Sovellus on osoitteessa https://opetus-sovellus.herokuapp.com/

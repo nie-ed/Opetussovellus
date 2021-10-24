@@ -26,7 +26,7 @@
 
     <h4>Delete course and all tasks in course:</h4>
     <form action="/delete_course" method="POST">
-    <input type="submit" value="Delete course">
+    <input type="submit" value="Delete course" class="button5">
     <input type="hidden" name="course_id" value={{course.id}}>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     </form>

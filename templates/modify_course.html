@@ -22,14 +22,14 @@
   </nav>
 
     <div class="header">
-      <h1> Modify course page</h1>
+      <h3> Modify course page</h3>
     </div>
 
     <div>            
       <form action="/create_new_question" method="POST" onsubmit="return check(this)">
           <h4>Add text form question:</h4>
           <p><input type="text" name="text_question"></p>
-          <input type="submit" value="Add new question">
+          <input type="submit" value="Add new question" class="button5">
           <input type="hidden" name="course_id" value="{{id}}">
           <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
      </form>
@@ -50,7 +50,7 @@
           <p>Choice 4:<br>
           <input type="text" name="choice"></p>
           <input type="hidden" name= "course_id" value="{{id}}">
-          <input type="submit" value="Create multiple choice question">
+          <input type="submit" value="Create multiple choice question" class="button5">
           <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
      </form>
 
@@ -64,10 +64,12 @@
           <textarea name="content" rows="5" cols="100"></textarea>
           <input type="hidden" name="course_id" value="{{id}}">
           <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-          <input type="submit" value="Add new content">
+          <input type="submit" value="Add new content" class="button5">
 	</form>
 
   </div>
+  <br>
+  <a href="/courses/{{id}}">Go back to course site</a>
 
 </body>
 

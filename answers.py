@@ -4,16 +4,16 @@ from flask import session
 import routes
 
 
-def add_answer(task_id, task_topic, student_id, content, course_id):
-	sql = "INSERT INTO answers (task_id, task_topic, student_id, content, course_id, sent_at) VALUES (:task_id, :task_topic, :student_id, :content, :course_id, NOW())"
-	db.session.execute(sql, {"task_id":task_id, "task_topic":task_topic, "student_id":student_id, "content":content, "course_id":course_id})
+def add_answer(task_id, student_id, content, course_id):
+	sql = "INSERT INTO answers (task_id, student_id, content, course_id, sent_at) VALUES (:task_id, :student_id, :content, :course_id, NOW())"
+	db.session.execute(sql, {"task_id":task_id,"student_id":student_id, "content":content, "course_id":course_id})
 	db.session.commit()
 
 
 def find_answer(task_id, student_id, course_id):
 	sql = "SELECT * FROM answers WHERE task_id=:task_id and student_id=:student_id and course_id=:course_id"
 	result = db.session.execute(sql, {"task_id":task_id, "student_id":student_id, "course_id":course_id})
-	found = result.fetchone()
+	found = result.fetchone()[0]
 	if found:
 		return found
 	else:
@@ -27,21 +27,21 @@ def get_all(student_id):
 
 
 def get_all_task_answers(task_id):
-	sql = "SELECT a.task_topic, a.content, u.username" \
-	" FROM answers a, users u " \
+	sql = "SELECT t.text_question, a.content, u.username" \
+	" FROM tasks t, answers a, users u " \
 	"WHERE a.task_id=:task_id and a.student_id=u.id"
 	result = db.session.execute(sql,{"task_id":task_id})
 	all = result.fetchall()
 	return all
 
-#pohja monivalintaysymysten vastausten näyttämiseksi
-#def get_all_choice_answers(task_id)
-#	sql = "SELECT c.task_topic, c.choice_text, u.username FROM choices c, " \
-#	"choice_studen_answers s, users u WHERE c.id=s.choice_id and" \
-#	"s.task_id=:task_id and s.student_id=u.id"
-#	result = db.session.execute(sql, {"task_id":task_id})
-#	all = result.fetchall()
-#	return all
+
+def get_all_choice_answers(task_id):
+	sql = "SELECT c.choice_text, u.username FROM choices c, " \
+	"choice_student_answers s, users u WHERE c.id=s.choice_id and " \
+	"s.task_id=:task_id and s.student_id=u.id"
+	result = db.session.execute(sql, {"task_id":task_id})
+	all = result.fetchall()
+	return all
 
 def add_choice_student_answer(task_id, choice_id, student_id):
 	sql = "INSERT INTO choice_student_answers (task_id, choice_id, student_id) VALUES (:task_id, :choice_id, :student_id)"
@@ -64,10 +64,17 @@ def find_student_answer(student_id):
 	return answer
 
 def count_student_answered(task_id, student_id):
-	sql = "SELECT COUNT(*) FROM answers a, choice_student_answers c WHERE a.task_id=:task_id AND a.student_id=:student_id OR c.task_id=:task_id AND c.student_id=:student_id"
+	sql = "SELECT COUNT(*) FROM answers WHERE task_id=:task_id AND student_id=:student_id"
 	result = db.session.execute(sql, {"task_id":task_id, "student_id":student_id})
 	amount = result.fetchone()[0]
 	return amount
+
+def count_student_choice_answered(task_id, student_id):
+	sql = "SELECT COUNT(*) FROM choice_student_answers WHERE task_id=:task_id AND student_id=:student_id"
+	result = db.session.execute(sql, {"task_id":task_id, "student_id":student_id})
+	amount = result.fetchone()[0]
+	return amount
+
 
 def choice_correct_answer(task_id, choice_id):
 	sql = "INSERT INTO choice_correct_answers (choice_id, task_id) VALUES (:choice_id, :task_id)"

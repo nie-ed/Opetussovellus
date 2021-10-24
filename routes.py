@@ -324,10 +324,10 @@ def student_answers():
 		all_choice_answers = False
 		if task.multiple_choice == False:
 			all_answers = answers.get_all_task_answers(task_id)
-			return render_template("student_answers.html", task=task, all_answers = all_answers, all_choice_answers=all_choice_answers, course=course)
+			return render_template("student_answers.html", task=task, all_answers = all_answers,  course=course)
 		else:
 			all_choice_answers = answers.get_all_choice_answers(task_id)
-			return render_template("student_answers.html", task=task, all_choice_answers = all_choice_answers, course=course, all_answers = all_answers)
+			return render_template("student_answers.html", task=task, all_choice_answers = all_choice_answers, course=course)
 
 
 @app.route("/delete_course/<int:id>")

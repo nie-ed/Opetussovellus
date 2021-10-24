@@ -29,7 +29,7 @@ def get_all(student_id):
 def get_all_task_answers(task_id):
 	sql = "SELECT t.text_question, a.content, u.username" \
 	" FROM tasks t, answers a, users u " \
-	"WHERE a.task_id=:task_id and a.student_id=u.id"
+	"WHERE a.task_id=:task_id and a.student_id=u.id and t.id=:task_id"
 	result = db.session.execute(sql,{"task_id":task_id})
 	all = result.fetchall()
 	return all

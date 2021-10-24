@@ -26,10 +26,11 @@
 <div class="header2">
   <h3>Question page</h3>
 </div>
-
-    {% if choice_answer %}
-        <h4>You have aswered this question answered. Question was:</h4>
-        <p>{{task.text_question}}</p>
+<div>
+    {% if task.multiple_choice %}
+      {% if choice_answer %}
+         <h4>You have aswered this question. Question was:</h4>
+         <p>{{task.text_question}}</p>
 
         <br>
 
@@ -41,23 +42,27 @@
 	<h4>Question was {{is_correct}} answered.</h4>
         <br>
           
-    {% elif all_choices %}
+      {% else %}
        <br>
-       <h4>{{task.taxt_question}}</h4>
+       <h4>{{task.text_question}}</h4>
        <br>
        <form action="/add_choice_answer" method="POST">
        {% for choice in all_choices %}
 	<input type="radio" name="answer" value="{{ choice.id }}"> {{ choice.choice_text }} <br>
         {% endfor %}
-         <p>
 	  <input type="submit" value="Send answer">
 	  <input type="hidden" name="task_id" value="{{ task.id }}">
+	  <input type="hidden" name="course_id" value="{{ course.id}}">
           <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-         </form>
-	{% elif answer%}
-           <br>
+       </form>
+      {% endif %}
+
+     {% else %}
+	{% if answer %}
+        <div>
+	<br>
   	   <h4> You have answered question. Question was:</h4>
-           <p>{{answer.task_topic}}:</p>
+           <p>{{task.text_question}}:</p>
            
            <br>
 
@@ -65,22 +70,42 @@
 	   <p>{{answer.content}}</p>
            
            <br>
+        </div>
        {% else %}
         <br>
-	<form action="/add_answer" method="POST">
+	<form action="/add_answer" method="POST" onsubmit="return check(this)">
          <h4>{{task.text_question}}</h4>
          
          <input type= "hidden" name="topic" value="{{task.text_question}}">
-         <textarea name="content" rows="5" cols="60" </textarea>
+         <textarea name="content" rows="5" cols="60"> </textarea>
          <input type= "hidden" name="task_id" value={{task.id}}>
          <input type= "hidden" name="course_id" value= {{course.id}}>
          <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
          <input type="submit" value="Send">
-         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
          </form>
       {% endif %}
+  {% endif %}
+    <br>
+    <a href="/courses/{{course.id}}">Go back to course page</a>
 
-
-
-  </div>
 </div>
+</body>
+
+<script>
+function check(form) {
+
+        if (form.content.value.length > 100) {
+                alert("Text content is too long. Should be at most 2000 characters");
+                return false;
+        }
+
+        if (form.content.value.length < 10) {
+                alert("Text content is too short. Should be at least 10 characters");
+                return false;
+        }
+
+        return true;
+}
+
+</script>
+

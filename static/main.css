@@ -11,10 +11,35 @@
 .header {
     background: linear-gradient(315deg, #f89b9e 0%, #c9d9ff 74%);
     font-weight: bold;
-    padding: 1em 1em;
+    padding: 0.5em 1em;
     font-size: 2em;
     border-radius: .5em;
     margin-top: .5em;
+}
+
+.block_space{
+    display: block;
+    float: right;
+    padding: .5em;
+    background: #DCDCDC;
+    display: grid;
+    max-width: 15em;
+    margin-bottom: 2em;
+    margin-left: 2em;
+    margin-top: 2em;
+    word-wrap: break-word;
+}
+
+.button5 {
+  background-color: lavender;
+  color: black;
+  border-radius: 6px;
+  border: 2px solid LightSteelBlue;
+}
+
+.button5:hover {
+  background-color: #555555;
+  color: white;
 }
 
 .header4 {

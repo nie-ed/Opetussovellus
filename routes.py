@@ -37,7 +37,15 @@ def login():
  
 @app.route("/main_page")
 def main_page():
-	return render_template("main_page.html")
+	user_id = session["user_id"]
+	user = users.is_user(user_id)
+	allow= False
+	if user:
+		allow=True
+	if not allow:
+		return render_template("error.html", error="Ei oikeutta nähdä sivua")
+	if allow:
+		return render_template("main_page.html")
 
 @app.route("/signup", methods=["GET", "POST"])
 def create_account():
@@ -99,9 +107,17 @@ def logout():
 
 @app.route("/courses")
 def courses():
-	all = modify_courses.all_courses()
-	admin = users.is_admin(session["user_id"])
-	return render_template("courses.html", courses = all, admin = admin)
+	user_id = session["user_id"]
+	user = users.is_user(user_id)
+	allow= False
+	if user:
+		allow=True
+	if not allow:
+		return render_template("error.html", error="Ei oikeutta nähdä sivua")
+	if allow:
+		all = modify_courses.all_courses()
+		admin = users.is_admin(session["user_id"])
+		return render_template("courses.html", courses = all, admin = admin)
 
 @app.route("/add_course", methods=["GET", "POST"])
 def add_course():
@@ -130,64 +146,79 @@ def add_course():
 @app.route("/courses/<int:id>", methods=["GET", "POST"])
 def course_site(id):
 	user_id = session["user_id"]
-	admin = users.is_admin(user_id)
-	course = modify_courses.get_course(id)
-	tasks=modify_tasks.get_all(id)
-	content = modify_text.get_all(id)
-	amount_tasks = len(tasks)
-	amount_answered = 0
-	for task in tasks:
-		if task.multiple_choice == False:
-			amount_answered = amount_answered + answers.count_student_answered(task.id, user_id)
-		else:
-			amount_answered = amount_answered + answers.count_student_choice_answered(task.id, user_id)
+	user = users.is_user(user_id)
+	allow= False
+	if user:
+		allow = True
+	if not allow:
+		return render_template("error.html", error="Ei oikeutta nähdä sivua")
+	if allow:
+		admin = users.is_admin(user_id)
+		course = modify_courses.get_course(id)
+		tasks=modify_tasks.get_all(id)
+		content = modify_text.get_all(id)
+		amount_tasks = len(tasks)
+		amount_answered = 0
+		for task in tasks:
+			if task.multiple_choice == False:
+				amount_answered = amount_answered + answers.count_student_answered(task.id, user_id)
+			else:
+				amount_answered = amount_answered + answers.count_student_choice_answered(task.id, user_id)
 	
-	if request.method == "GET":
-		attending = modify_courses.attending(id, user_id)
-		if attending or admin:
-			return render_template("course.html", content = content, admin=admin, course = course, student_id = user_id, amount_answered = amount_answered, amount_tasks=amount_tasks, tasks = tasks)
-		else:
-			course = modify_courses.get_course(id)
-			return render_template("attend_course.html", course = course)
-	if request.method == "POST":
-		if session["csrf_token"] != request.form["csrf_token"]:
-			abort(403)
-
-		else:
-			modify_courses.attend_course(id, user_id)
+		if request.method == "GET":
 			attending = modify_courses.attending(id, user_id)
-			if attending:
+			if attending or admin:
 				return render_template("course.html", content = content, admin=admin, course = course, student_id = user_id, amount_answered = amount_answered, amount_tasks=amount_tasks, tasks = tasks)
 			else:
-				return render_template("error.html", error="Kurssille ilmottautuminen ei onnistunut")
+				course = modify_courses.get_course(id)
+				return render_template("attend_course.html", course = course)
+		if request.method == "POST":
+			if session["csrf_token"] != request.form["csrf_token"]:
+				abort(403)
+
+			else:
+				modify_courses.attend_course(id, user_id)
+				attending = modify_courses.attending(id, user_id)
+				if attending:
+					return render_template("course.html", content = content, admin=admin, course = course, student_id = user_id, amount_answered = amount_answered, amount_tasks=amount_tasks, tasks = tasks)
+				else:
+					return render_template("error.html", error="Kurssille ilmottautuminen ei onnistunut")
 
 @app.route("/question/<int:id>", methods=["GET", "POST"])
 def question_site(id):
-	if request.method == "GET":
-		return render.template("question.html")
+	user_id = session["user_id"]
+	user = users.is_user(user_id)
+	allow= False
+	if user:
+		allow=True
+	if not allow:
+		return render_template("error.html", error="Ei oikeutta nähdä sivua")
+	if allow:
+		if request.method == "GET":
+			return render.template("question.html")
 	
-	if request.method == "POST":
-		if session["csrf_token"] != request.form["csrf_token"]:
-			abort(403)
-		else:
-			user_id = session["user_id"]
-			course_id = request.form["course_id"]
-			course = modify_courses.get_course(course_id)
-			task=modify_tasks.get_task(id)
-			choice_id = answers.find_choice_answer(id, user_id)
-			choice_answer = False
-			is_correct = "incorrectly"
-			correct_answer=False
-			if choice_id:
-				choice_answer = choices.get_choice(choice_id.choice_id)
-				if (choice_answer):
-					correct_answer = answers.find_choice_correct_answer(id)
-					if (correct_answer.id == choice_id.choice_id):
-						is_correct = "correctly"
-			all_choices = choices.get_all_choices(id)
-			answer = answers.find_answer(id, user_id, course_id)
+		if request.method == "POST":
+			if session["csrf_token"] != request.form["csrf_token"]:
+				abort(403)
+			else:
+				user_id = session["user_id"]
+				course_id = request.form["course_id"]
+				course = modify_courses.get_course(course_id)
+				task=modify_tasks.get_task(id)
+				choice_id = answers.find_choice_answer(id, user_id)
+				choice_answer = False
+				is_correct = "incorrectly"
+				correct_answer=False
+				if choice_id:
+					choice_answer = choices.get_choice(choice_id.choice_id)
+					if (choice_answer):
+						correct_answer = answers.find_choice_correct_answer(id)
+						if (correct_answer.id == choice_id.choice_id):
+							is_correct = "correctly"
+				all_choices = choices.get_all_choices(id)
+				answer = answers.find_answer(id, user_id, course_id)
 			
-			return render_template("question.html", task = task, all_choices=all_choices, answer = answer, course = course, choice_answer=choice_answer, correct_answer = correct_answer, is_correct = is_correct)
+				return render_template("question.html", task = task, all_choices=all_choices, answer = answer, course = course, choice_answer=choice_answer, correct_answer = correct_answer, is_correct = is_correct)
 
 
 @app.route("/students_attending_course", methods=["POST"])
@@ -265,21 +296,29 @@ def create_new_multiple_choice_question():
 
 @app.route("/correct_answer/<int:id>", methods = ["GET", "POST"])
 def correct_answer(id):
-	task_id = id
-	course_id = modify_tasks.get_course_id(id)
-	if request.method == "GET":
-		task_choices = choices.get_all_choices(task_id)
-		return render_template("correct_answer.html", task_id = task_id, task_choices = task_choices)
-	if request.method == "POST":
-		if session["csrf_token"] != request.form["csrf_token"]:
-			abort(403)
+	user_id = session["user_id"]
+	user = users.is_user(user_id)
+	allow= False
+	if user:
+		allow=True
+	if not allow:
+		return render_template("error.html", error="Ei oikeutta nähdä sivua")
+	if allow:
+		task_id = id
+		course_id = modify_tasks.get_course_id(id)
+		if request.method == "GET":
+			task_choices = choices.get_all_choices(task_id)
+			return render_template("correct_answer.html", task_id = task_id, task_choices = task_choices)
+		if request.method == "POST":
+			if session["csrf_token"] != request.form["csrf_token"]:
+				abort(403)
 
-		else:
-			student_id = session["user_id"]
-			if "answer" in request.form:
-				choice_id = request.form["answer"]
-				answers.choice_correct_answer(task_id, choice_id)
-			return redirect("/courses/" +str(course_id.course_id))
+			else:
+				student_id = session["user_id"]
+				if "answer" in request.form:
+					choice_id = request.form["answer"]
+					answers.choice_correct_answer(task_id, choice_id)
+				return redirect("/courses/" +str(course_id.course_id))
 
 @app.route("/add_choice_answer", methods=["POST"])
 def add_choice_answer():
@@ -332,8 +371,16 @@ def student_answers():
 
 @app.route("/delete_course/<int:id>")
 def delete_course_id(id):
-	course = modify_courses.get_course(id)
-	return render_template("delete_course.html", course = course)
+	user_id = session["user_id"]
+	user = users.is_user(user_id)
+	allow= False
+	if user:
+		allow=True
+	if not allow:
+		return render_template("error.html", error="Ei oikeutta nähdä sivua")
+	if allow:
+		course = modify_courses.get_course(id)
+		return render_template("delete_course.html", course = course)
 	
 @app.route("/delete_course", methods = ["POST"])
 def delete_course():

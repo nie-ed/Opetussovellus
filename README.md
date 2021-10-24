@@ -29,7 +29,6 @@
 
 
 <h3>Virheitä, joita korjattava:</h3>
-<li>Opettaja näkee jokaisen kysymyksen kohdalla useaan kertaa oppilaiden vastaukset.</li>
 <li>Virheilmoitusten näkyminen samalla sivulla ei toimi kaikissa tilanteissa.</li>
 
 

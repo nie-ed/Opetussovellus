@@ -19,12 +19,12 @@ def add_course(name, course_creator):
 	sql = "INSERT INTO courses (name, course_creator) VALUES (:name, :course_creator)"
 	db.session.execute(sql, {"name":name, "course_creator":course_creator})
 	db.session.commit()
-	sql_2 = "SELECT * FROM courses WHERE name=:name"
-	result = db.session.execute(sql_2, {"name":name})
-	course = result.fetchone()
-	sql_3= "INSERT INTO students_in_course (course_id) VALUES (:course_id)"
-	db.session.execute(sql_3, {"course_id":course.id})
-	db.session.commit()
+#	sql_2 = "SELECT * FROM courses WHERE name=:name"
+#	result = db.session.execute(sql_2, {"name":name})
+#	course = result.fetchone()
+#	sql_3= "INSERT INTO students_in_course (course_id) VALUES (:course_id)"
+#	db.session.execute(sql_3, {"course_id":course.id})
+#	db.session.commit()
 
 def attending(id, user_id):
 	sql = "SELECT * FROM students_in_course WHERE course_id=:course_id AND user_id=:user_id"

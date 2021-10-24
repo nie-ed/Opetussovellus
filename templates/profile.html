@@ -24,13 +24,16 @@
      {% if admin %}
 
        <div class="header">
-          <h3> Your created courses:</h3>
+          <h3> {{user.username}}</h3>
        </div>
 
+
+       <h4>Your created courses:</h4>
+       
        <div class="list">
            <ul> 
                {% for course in courses_created%}
-                   <li><a href="/courses/{{course.id}}">{{ course.name }}</a></li>
+                   <li>Click to go to course page: <a href="/courses/{{course.id}}">{{ course.name }}</a></li>
 	           <br>
                {% endfor %}
            </ul>
@@ -39,13 +42,16 @@
      {% else %}
    
       <div class="header">
-          <h3>Your attended courses:</h3>
+          <h3>{{user.username}}</h3>
       </div>
     
+      <br>
+      <h4>Your attended courses:</h4>
+
       <div class="list">
          <ul>
              {% for course in students_courses %}
-                 <li> <a href= "/courses/{{course.id}}">{{course.name}}</a></li>
+                 <li>Click to go to course page: <a href= "/courses/{{course.id}}">{{course.name}}</a></li>
              {% endfor %}
          </ul>
       </div>

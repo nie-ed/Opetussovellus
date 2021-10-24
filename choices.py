@@ -3,9 +3,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask import session
 
 
-def add_choice(task_id, choice_text, task_topic):
-	sql = "INSERT INTO choices (task_id, choice_text, task_topic) VALUES (:task_id, :choice_text, :task_topic)"
-	db.session.execute(sql, {"task_id":task_id, "choice_text":choice_text, "task_topic":task_topic})
+def add_choice(task_id, choice_text):
+	sql = "INSERT INTO choices (task_id, choice_text) VALUES (:task_id, :choice_text)"
+	db.session.execute(sql, {"task_id":task_id, "choice_text":choice_text})
 	db.session.commit()
 
 def get_all_course_question_id(course_id):

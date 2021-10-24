@@ -23,79 +23,83 @@
 
 
   <div class="header">
-    <h1><b>{{course.name}}</b></h1>
+    <h3><b>{{course.name}}</b></h3>
     <br>
   </div>
 
+  <div class="block_space">
+      {% if admin %}
+
+       <h4>All questions in course:</h4>
+       <br>
+       {% for task in tasks %}
+              <p>"{{task.text_question}}"</p>
+              <form action="/student_answers" method="POST">
+                  <input type="submit" value= "See student answers to question" class="button_link">
+                  <input type="hidden" name="course_id" value="{{ course.id }}">
+                  <input type="hidden" name="task_id" value={{task.id}}>
+                  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+               </form>
+        {% endfor %}
+  
+
+      {% else %}
+           <h4>All course questions listed below. Click link to go answer question:</h4>
+           {% for question in tasks %}
+               <form action="/question/{{question.id}}" method= "POST">
+                  <input type="hidden" name="course_id" value= "{{course.id}}">
+                  <input type="submit" value="{{question.text_question}}" class="button_link"></input>
+                  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+               </form>
+               <br>
+        {% endfor %}
+
+         <div class="right_side">
+            <br>
+            <label>Course tasks done</label>
+            <progress value="{{amount_answered}}" max="{{amount_tasks}}"></progress>
+          </div>
+      {% endif %}
+</div>
   <div>
       {% for text in content %}
-        <h3>{{text.topic}}</h3>
-        <p>{{text.content}}</p>
-        <br>
+          <h3>{{text.topic}}</h3>
+          <p>{{text.content}}</p>
+          <br>
       {% endfor %}
+ </div>
       <br>
       <br>
       {% if admin %}
+
 	<form action="/students_attending_course" method="POST">
-	<input type="submit" value="List of students attending course">
-	<input type="hidden" name="course_id" value="{{id}}">
-	<input type="hidden" name="student_id" value="{{student_id}}">
-        <input type="hidden" name="course" value="{{course}}">
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+         	<input type="submit" value="List of students attending course" class="button5">
+	        <input type="hidden" name="course_id" value="{{course.id}}">
+        	<input type="hidden" name="student_id" value="{{student_id}}">
+                <input type="hidden" name="course" value="{{course}}">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
         </form>
       
       <div class="bottom">
            <br>
-           <a href="/delete_course/{{ id }}">Delete course</a>
+           <a href="/delete_course/{{ course.id }}">Delete course</a>
            <br>
       </div>
-     {% endif %}
 
-</div>
-      <div class="right_side">	
-        {% if admin %}
-  	
-  	  <h4>All questions in course:</h4>
-        
-          {% for task in tasks %}
-              <p>{{task.text_question}}</p>
-	      <form action="/student_answers" method="POST">
-		  <input type="submit" value="Student answers to question" class="button_link">
-                  <input type="hidden" name="course_id" value="{{ id }}">
-                  <input type="hidden" name="task_id" value={{task.id}}>
-                  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-                  <br>
-	      </form>
-          {% endfor %}
-          <br>
-      
+       <br> 
+
+      <div>
       
           <form action="/modify_course" method="POST">
-               <input type="submit" value="Modify course">
-               <input type="hidden" name="id" value="{{ id }}">
+               <input type="submit" value="Modify course" class="button5">
+               <input type="hidden" name="id" value="{{ course.id }}">
                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
            </form>
            <br>
        </div>
 
-    {% else %}
-	
-	<h4>Questions:</h4>
-	{% for question in tasks %}
-	    <h5>{{question.text_question}}</h5>
-            <form action="/question/{{question.id}}" method= "POST">
-	        <input type="hidden" name="course_id" value= "{{id}}">
-  	        <input type="submit" value="Go to question site: {{question.text_question}}" class="button_link">
-                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-            </form>
-	{% endfor %}
+    {% endif %}
 
-        <br>
-	<label>Course tasks done</label>
-        <progress value="{{amount_answered}}" max="{{amount_tasks}}"> </progress>
-      {% endif %}
 
-  </div>
- 
 
 </body>

@@ -32,8 +32,8 @@
 <li>Virheilmoitusten näkyminen samalla sivulla ei toimi kaikissa tilanteissa.</li>
 
 
-<h3>Testaaminen herokussa</h3>
-<li>Sovellus on osoitteessa https://opetus-sovellus.herokuapp.com/</li>
+<h3>Sovelluksen testaaminen</h3>
+<li>Sovellus toimii Flask:illä ja PostgreSQL:llä/</li>
 <li>Kun luo uuden käyttäjä, admin-arvoksi tulee False.
 <li>Halutessasi testata admin-oikeuksia, käytä valmiiksi luotua admin-käyttäjää: käyttäjänimi: user1, salasana: user1. </li>
 <li>Testataksesi peruskäyttäjän toiminnallisuuksia, voit luoda uuden käyttäjän sign up sivulla. Mikäli et halua luoda uutta käyttäjää, valmis peruskäyttäjä on: käyttäjätunnus: user3 ja salasana: user3</li>

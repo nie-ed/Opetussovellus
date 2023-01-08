@@ -30,12 +30,14 @@
 
 <h3>Virheitä, joita korjattava:</h3>
 <li>Virheilmoitusten näkyminen samalla sivulla ei toimi kaikissa tilanteissa.</li>
+<li>Sovellus siirretty Herokusta Fly.io sivustolle, jonka johdosta sovelluksen kaikki toiminnit eivät toimi vielä.<li>
 
 
 <h3>Sovelluksen testaaminen</h3>
+<li>Sovellus siirretty Herokusta Fly.io sivustolle, jonka johdosta sovelluksen kaikki toiminnit eivät toimi vielä.<li>
 <li>Sovellus on sivustolla https://opetus-sovellus.fly.dev/</li>
 <li>Kun luo uuden käyttäjä, admin-arvoksi tulee False.
 <li>Halutessasi testata admin-oikeuksia, käytä valmiiksi luotua admin-käyttäjää: käyttäjänimi: user1, salasana: user1. </li>
-<li>Testataksesi peruskäyttäjän toiminnallisuuksia, voit luoda uuden käyttäjän sign up sivulla. Mikäli et halua luoda uutta käyttäjää, valmis peruskäyttäjä on: käyttäjätunnus: user3 ja salasana: user3</li>
+<li>Testataksesi peruskäyttäjän toiminnallisuuksia, voit luoda uuden käyttäjän sign up sivulla. Mikäli et halua luoda uutta käyttäjää, valmis peruskäyttäjä on: käyttäjätunnus: user ja salasana: user</li>
 <li>Kirjautuessa sisään pääset etusivulle. Jokaisen sivun yläreunassa on linkit "List of all courses" josta pääset kurssilistaukseen, "Log out" josta voit kirjautua ulos ja "Own Page", josta voit mennä omalla sivulle.</li>
 <li>Toiminnallisuuksien näkyminen/sivuston sisältö riippuu siitä oletko admin käyttäjä vai et sekä esim. siitä oletko ilmottautunut kurssille. </li>

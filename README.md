@@ -30,7 +30,7 @@
 
 <h3>Virheitä, joita korjattava:</h3>
 <li>Virheilmoitusten näkyminen samalla sivulla ei toimi kaikissa tilanteissa.</li>
-<li>Sovellus siirretty Herokusta Fly.io sivustolle, jonka johdosta sovelluksen kaikki toiminnit eivät toimi vielä.<li>
+<li>Sovellus siirretty Herokusta Fly.io sivustolle, jonka johdosta sovelluksen kaikki toiminnit eivät toimi vielä.</li>
 
 
 <h3>Sovelluksen testaaminen</h3>

@@ -34,7 +34,6 @@
 
 
 <h3>Sovelluksen testaaminen</h3>
-<b>HUOM Sovellus siirretty Herokusta Fly.io sivustolle, jonka johdosta sovelluksen kaikki toiminnot eivät toimi halutusti vielä.</b>
 <li>Sovellus on sivustolla https://opetus-sovellus.fly.dev/</li>
 <li>Kun luo uuden käyttäjä, admin-arvoksi tulee False.
 <li>Halutessasi testata admin-oikeuksia, käytä valmiiksi luotua admin-käyttäjää: käyttäjänimi: user1, salasana: user1. </li>
